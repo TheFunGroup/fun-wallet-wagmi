@@ -21,7 +21,7 @@ const client = createClient({
     new GoogleLoginConnector({
       chains,
       options: {
-        chainId: 5
+        chainId: GOERLI_CHAINID
       },
     }),
     new TwitterLoginConnector({

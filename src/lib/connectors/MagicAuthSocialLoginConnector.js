@@ -119,7 +119,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
         
         await this.getMagic(this.chain, true)
         this.emit("change", { chain: { id: this.chain, unsupported: false } });
-        return chain;
+        return chain
     }
 
     async isAuthorized() {

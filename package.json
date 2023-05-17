@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fun-wallet": "^0.2.5",
     "wagmi": "^1.0.1"
   }
 }
