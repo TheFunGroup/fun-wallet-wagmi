@@ -2,10 +2,8 @@ import './App.css';
 import { WagmiConfig, createClient, configureChains } from 'wagmi'
 import { mainnet, goerli, polygon, bsc } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
-import { GoogleLoginConnector } from './GoogleLoginConnector';
-import { TwitterLoginConnector } from './TwitterLoginConnector';
-import { DiscordLoginConnector } from './DiscordLoginConnector';
-import { AppleLoginConnector } from './AppleLoginConnector';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { GoogleLoginFunWalletConnector } from './GoogleLoginFunWalletConnector'
 import Connect from './components/connect';
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -18,30 +16,14 @@ const { chains, provider, webSocketProvider } = configureChains(
 const client = createClient({
   autoConnect: true,
   connectors: [
-    new GoogleLoginConnector({
+    new GoogleLoginFunWalletConnector({
       chains,
       options: {
-        chainId: GOERLI_CHAINID
+        chainId: 5,
+        apiKey: 'MYny3w7xJh6PRlRgkJ9604sHouY2MTke6lCPpSHq',
       },
     }),
-    new TwitterLoginConnector({
-      chains,
-      options: {
-        chainId: 5
-      },
-    }),
-    new DiscordLoginConnector({
-      chains,
-      options: {
-        chainId: 5
-      },
-    }),
-    new AppleLoginConnector({
-      chains,
-      options: {
-        chainId: 5
-      },
-    }),
+    // new MetaMaskConnector({ chains })
   ],
   provider,
   webSocketProvider,

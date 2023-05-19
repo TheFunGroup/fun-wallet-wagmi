@@ -1,6 +1,6 @@
-import { MagicAuthSocialLoginConnector } from './MagicAuthSocialLoginConnector';
+import { MagicAuthFunWalletConnector } from './MagicAuthFunWalletConnector';
 
-export class GoogleLoginConnector extends MagicAuthSocialLoginConnector {
+export class GoogleLoginFunWalletConnector extends MagicAuthFunWalletConnector {
     id = 'google-login'
     name = 'Google Login'
     constructor({ chains, options }) {
