@@ -65,7 +65,6 @@ export class FunWalletConnector extends Connector {
         if (force || !this.wallet) {
             try {
                 await configureEnvironment({chain: chainId, apiKey: this.apiKey})
-                console.log("before get auth")
                 this.auth = await this.getAuth()
                 if (!this.auth) {
                     throw new Error("missing auth")

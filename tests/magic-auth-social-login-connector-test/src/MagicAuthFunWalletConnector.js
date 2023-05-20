@@ -38,15 +38,8 @@ export class MagicAuthFunWalletConnector extends FunWalletConnector {
             return this.auth
         }
 
-        console.log("get auth 1111111111")
-        const magic = this.getMagic()
-        const oAuthResult = await magic.oauth.getRedirectResult()
-        console.log("get auth result", oAuthResult)
-
-        console.log("get auth")
-        console.log(oAuthResult)
-        let authId = oAuthResult.oauth.userInfo.preferredUsername ? oAuthResult.oauth.userInfo.preferredUsername : oAuthResult.oauth.userInfo.email
-        authId = `${oAuthResult.oauth.provider}###${authId}`
+        let authId = this.oAuthResult.oauth.userInfo.preferredUsername ? this.oAuthResult.oauth.userInfo.preferredUsername : this.oAuthResult.oauth.userInfo.email
+        authId = `${this.oAuthResult.oauth.provider}###${authId}`
         this.auth = new MagicAuthEoa({ provider: await this.getProvider(), uniqueId:  authId})
         return this.auth
     }
@@ -94,10 +87,12 @@ export class MagicAuthFunWalletConnector extends FunWalletConnector {
             if (isLoggedIn) {
                 return true
             }
-            console.log('isAuthorized: before result')
-            const result = await magic.oauth.getRedirectResult()
-            console.log('isAuthorized: result', result)
-            return result != null
+            
+            if (this.oAuthResult) {
+                return true;
+            }
+            this.oAuthResult = await magic.oauth.getRedirectResult()
+            return this.oAuthResult != null
         } catch {
             return false
         }

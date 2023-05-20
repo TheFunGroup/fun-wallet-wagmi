@@ -33,6 +33,16 @@ export class MagicAuthSocialLoginConnector extends Connector {
         return this.magic
     }
 
+    async getAuthId() {
+        if (this.authId) {
+            return this.authId
+        }
+
+        let authId = this.oAuthResult.oauth.userInfo.preferredUsername ? this.oAuthResult.oauth.userInfo.preferredUsername : this.oAuthResult.oauth.userInfo.email
+        this.authId = `${this.oAuthResult.oauth.provider}###${authId}`
+        return this.authId
+    }
+
     async connect() {
         const provider = await this.getProvider()
         if (provider.on) {
@@ -129,8 +139,12 @@ export class MagicAuthSocialLoginConnector extends Connector {
             if (isLoggedIn) {
                 return true
             }
-            const result = await magic.oauth.getRedirectResult()
-            return result != null
+
+            if (this.oAuthResult) {
+                return true
+            }
+            this.oAuthResult = await magic.oauth.getRedirectResult()
+            return this.oAuthResult != null
         } catch {
             return false
         }

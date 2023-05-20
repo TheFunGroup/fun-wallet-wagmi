@@ -14,7 +14,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 )
 
 const client = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors: [
     new GoogleLoginFunWalletConnector({
       chains,

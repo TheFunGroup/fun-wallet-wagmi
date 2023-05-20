@@ -25,11 +25,6 @@ const Connect = () => {
 
     useEffect(() => {
         console.log("isConnected, connectors[0] ", isConnected, connectors[0])
-        // const login = async () => {
-        //     console.log("isConnected, connectors[0] ", isConnected, connectors[0])
-        //     // await connectors[0].connect()
-        // }
-        // login()
     }, [isConnected])
 
     if (isConnected && address) {
