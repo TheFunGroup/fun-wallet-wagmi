@@ -1,4 +1,4 @@
-import { MagicAuthSocialLoginConnector } from '../MagicAuthSocialLoginConnector';
+import { MagicAuthSocialLoginConnector } from './MagicAuthSocialLoginConnector';
 
 export class AppleLoginConnector extends MagicAuthSocialLoginConnector {
     id = 'apple-login'
