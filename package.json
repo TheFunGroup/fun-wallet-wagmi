@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@magic-ext/oauth": "^11.2.0",
     "fun-wallet": "^0.2.5",
+    "magic-sdk": "^17.2.0",
+    "typescript": "^5.0.4",
     "wagmi": "^1.0.1"
   }
 }
