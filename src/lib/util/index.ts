@@ -10,3 +10,8 @@ export const  normalizeChainId = (chainId: string | number | bigint): number => 
       return Number(chainId);
     return chainId;
   }
+
+
+const Utils = { normalizeChainId}
+
+export default Utils
