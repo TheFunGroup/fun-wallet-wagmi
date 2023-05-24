@@ -1,6 +1,6 @@
-const { AppleLoginConnector } = require('./src/lib/connectors/AppleLoginConnector');
-const { DiscordLoginConnector } = require('./src/lib/connectors/DiscordLoginConnector');
-const { GoogleLoginConnector } = require('./src/lib/connectors/GoogleLoginConnector');
-const { TwitterLoginConnector } = require('./src/lib/connectors/TwitterLoginConnector');
+export const { AppleLoginConnector } = import('./src/lib/connectors/AppleLoginConnector');
+export const { DiscordLoginConnector } = import('./src/lib/connectors/DiscordLoginConnector');
+export const { GoogleLoginConnector } = import('./src/lib/connectors/GoogleLoginConnector');
+export const { TwitterLoginConnector } = import('./src/lib/connectors/TwitterLoginConnector');
 
-module.exports = { AppleLoginConnector, DiscordLoginConnector, GoogleLoginConnector, TwitterLoginConnector };
+export default { AppleLoginConnector, DiscordLoginConnector, GoogleLoginConnector, TwitterLoginConnector };
