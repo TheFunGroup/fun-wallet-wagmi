@@ -17,6 +17,16 @@ export class MagicAuthSocialLoginConnector extends Connector {
     magicAuthApiKey: string
     oAuthProvider: string
     redirectURI: string
+    authId: string | null
+    oAuthResult: {
+        oauth: {
+            userInfo: {
+                preferredUsername: string
+                email: string
+            },
+            provider: any 
+        }
+    } | null
     magic: any // TODO figur eout the proper type from the magic SDK despite it not being exported InstanceWithExtensions<SDKBase, OAuthExtension[]>
 
 
@@ -30,6 +40,8 @@ export class MagicAuthSocialLoginConnector extends Connector {
         this.magicAuthApiKey = options.magicAuthApiKey || 'pk_live_846F1095F0E1303C'
         this.oAuthProvider = options.oAuthProvider || 'magicAuth'
         this.redirectURI = options.redirectURI || window.location.href
+        this.authId = null
+        this.oAuthResult = null
     }
 
     getMagic(chainId=Number(this.chainId), force=false) {
@@ -52,8 +64,8 @@ export class MagicAuthSocialLoginConnector extends Connector {
             return this.authId
         }
 
-        let authId = this.oAuthResult.oauth.userInfo.preferredUsername ? this.oAuthResult.oauth.userInfo.preferredUsername : this.oAuthResult.oauth.userInfo.email
-        this.authId = `${this.oAuthResult.oauth.provider}###${authId}`
+        let authId = this.oAuthResult?.oauth.userInfo.preferredUsername ? this.oAuthResult?.oauth.userInfo.preferredUsername : this.oAuthResult?.oauth.userInfo.email
+        this.authId = `${this.oAuthResult?.oauth.provider}###${authId}`
         return this.authId
     }
 
@@ -78,7 +90,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
         // if there is a user logged in, return the user
         if (await this.isAuthorized()) {
             return {
-                provider, // TODO is this used anywhere?
+                // provider, // TODO is this used anywhere?
                 chain: {
                     id: chainId,
                     unsupported: false,
@@ -101,7 +113,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
                     id: chainId,
                     unsupported: false,
                 },
-                provider,
+                // provider, TODO check this as well
             }
         }
         return {
@@ -115,13 +127,18 @@ export class MagicAuthSocialLoginConnector extends Connector {
         await magic.user.logout()
     }
 
-    async getAccount(): Promise<`0x${string}`> {
-        const signer = await this.getSigner()
-        const account = await signer.getAddress()
-        if (account.startsWith('0x')) {
-            return account
-        } else {
-            return '0x' + account
+    async getAccount(): Promise<Address> {
+        try {
+            const signer = await this.getSigner()
+            const account = await signer.getAddress()
+            if (account.startsWith('0x')) {
+                return account as Address
+            } else {
+                return `0x${account}`
+            }
+        } catch (err) {
+            console.log(err)
+            return '0x0'
         }
     }
 
@@ -138,7 +155,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
     }
 
     async getSigner(chainId=this.chainId) {
-        const provider = await this.getProvider(chainId)
+        const provider = await this.getProvider({chainId})
         return provider.getSigner()
     }
 
