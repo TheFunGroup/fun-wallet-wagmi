@@ -3,15 +3,15 @@ import { OAuthExtension } from '@magic-ext/oauth';
 import { ethers } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 import { Magic } from 'magic-sdk';
-import { normalizeChainId } from '../../../util';
+import { normalizeChainId } from '../../util';
 const IS_SERVER = typeof window === 'undefined'
 
 
-export type Address = `0x${string}`
-
+// export type Address = `0x${string}`
+export type Address = `0x${string}`;
 export type contructorInputType = {chains: Chain$1[], options: any}
 
-export class MagicAuthSocialLoginConnector extends Connector {
+export class MagicAuthSocialLoginConnector extends Connector<any, any> {
     // MagicAuthSocialLoginConnector Types
     chainId: number
     magicAuthApiKey: string
@@ -28,8 +28,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
         }
     } | null
     magic: any // TODO figur eout the proper type from the magic SDK despite it not being exported InstanceWithExtensions<SDKBase, OAuthExtension[]>
-
-
+    protected storage: any;
     ready = !IS_SERVER
     id = 'social-login-connector'
     name = 'Social Login Connector'
@@ -64,7 +63,7 @@ export class MagicAuthSocialLoginConnector extends Connector {
             return this.authId
         }
 
-        let authId = this.oAuthResult?.oauth.userInfo.preferredUsername ? this.oAuthResult?.oauth.userInfo.preferredUsername : this.oAuthResult?.oauth.userInfo.email
+        const authId = this.oAuthResult?.oauth.userInfo.preferredUsername ? this.oAuthResult?.oauth.userInfo.preferredUsername : this.oAuthResult?.oauth.userInfo.email
         this.authId = `${this.oAuthResult?.oauth.provider}###${authId}`
         return this.authId
     }

@@ -3,7 +3,8 @@ import { WagmiConfig, createClient, configureChains } from 'wagmi'
 import { mainnet, goerli, polygon, bsc } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { GoogleLoginFunWalletConnector } from './GoogleLoginFunWalletConnector'
+// import { GoogleLoginFunWalletConnector } from './GoogleLoginFunWalletConnector'
+import {GoogleLoginConnector} from "../public"
 import Connect from './components/connect';
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -16,7 +17,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 const client = createClient({
   autoConnect: false,
   connectors: [
-    new GoogleLoginFunWalletConnector({
+    new GoogleLoginConnector({
       chains,
       options: {
         chainId: 5,
